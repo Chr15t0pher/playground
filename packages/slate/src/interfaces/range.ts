@@ -1,6 +1,9 @@
 import { produce } from 'immer'
-import isPlainObject from 'is-plain-object'
-import { ExtendedType, Operation, Path, Point, PointEntry } from '..'
+import { isPlainObject } from 'is-plain-object'
+
+import {
+  ExtendedType, Operation, Path, Point, PointEntry,
+} from '..'
 
 /**
  * `Range` objects are a set of points that refer to a specific span of a Slate
@@ -52,7 +55,7 @@ export const Range: RangeInterface = {
     range: Range,
     options: {
       reverse?: boolean
-    } = {}
+    } = {},
   ): [Point, Point] {
     const { reverse = false } = options
     const { anchor, focus } = range
@@ -76,8 +79,8 @@ export const Range: RangeInterface = {
 
   equals(range: Range, another: Range): boolean {
     return (
-      Point.equals(range.anchor, another.anchor) &&
-      Point.equals(range.focus, another.focus)
+      Point.equals(range.anchor, another.anchor)
+      && Point.equals(range.focus, another.focus)
     )
   },
 
@@ -88,8 +91,8 @@ export const Range: RangeInterface = {
   includes(range: Range, target: Path | Point | Range): boolean {
     if (Range.isRange(target)) {
       if (
-        Range.includes(range, target.anchor) ||
-        Range.includes(range, target.focus)
+        Range.includes(range, target.anchor)
+        || Range.includes(range, target.focus)
       ) {
         return true
       }
@@ -127,9 +130,8 @@ export const Range: RangeInterface = {
 
     if (Point.isBefore(end, start)) {
       return null
-    } else {
-      return { anchor: start, focus: end, ...rest }
     }
+    return { anchor: start, focus: end, ...rest }
   },
 
   /**
@@ -178,9 +180,9 @@ export const Range: RangeInterface = {
 
   isRange(value: any): value is Range {
     return (
-      isPlainObject(value) &&
-      Point.isPoint(value.anchor) &&
-      Point.isPoint(value.focus)
+      isPlainObject(value)
+      && Point.isPoint(value.anchor)
+      && Point.isPoint(value.focus)
     )
   },
 
@@ -188,7 +190,7 @@ export const Range: RangeInterface = {
    * Iterate through all of the point entries in a range.
    */
 
-  *points(range: Range): Generator<PointEntry, void, undefined> {
+  * points(range: Range): Generator<PointEntry, void, undefined> {
     yield [range.anchor, 'anchor']
     yield [range.focus, 'focus']
   },
@@ -211,7 +213,7 @@ export const Range: RangeInterface = {
     op: Operation,
     options: {
       affinity?: 'forward' | 'backward' | 'outward' | 'inward' | null
-    } = {}
+    } = {},
   ): Range | null {
     const { affinity = 'inward' } = options
     let affinityAnchor: 'forward' | 'backward' | null
@@ -238,7 +240,7 @@ export const Range: RangeInterface = {
       affinityFocus = affinity
     }
 
-    return produce(range, r => {
+    return produce(range, (r) => {
       const anchor = Point.transform(r.anchor, op, { affinity: affinityAnchor })
       const focus = Point.transform(r.focus, op, { affinity: affinityFocus })
 

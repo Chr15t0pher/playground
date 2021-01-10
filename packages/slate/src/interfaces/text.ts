@@ -1,4 +1,5 @@
-import isPlainObject from 'is-plain-object'
+import { isPlainObject } from 'is-plain-object'
+
 import { Range } from '..'
 import { ExtendedType } from './custom-types'
 
@@ -31,7 +32,7 @@ export const Text: TextInterface = {
   equals(
     text: Text,
     another: Text,
-    options: { loose?: boolean } = {}
+    options: { loose?: boolean } = {},
   ): boolean {
     const { loose = false } = options
 
@@ -130,9 +131,9 @@ export const Text: TextInterface = {
 
         // If the range starts after the leaf, or ends before it, continue.
         if (
-          start.offset > offset + length ||
-          end.offset < offset ||
-          (end.offset === offset && offset !== 0)
+          start.offset > offset + length
+          || end.offset < offset
+          || (end.offset === offset && offset !== 0)
         ) {
           next.push(leaf)
           continue

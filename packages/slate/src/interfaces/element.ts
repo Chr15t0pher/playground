@@ -1,5 +1,7 @@
-import isPlainObject from 'is-plain-object'
-import { Editor, Node, Path, Descendant, ExtendedType, Ancestor } from '..'
+import { isPlainObject } from 'is-plain-object'
+import {
+  Editor, Node, Path, Descendant, ExtendedType, Ancestor,
+} from '..'
 
 /**
  * `Element` objects are a type of node in a Slate document that contain other
@@ -36,9 +38,9 @@ export const Element: ElementInterface = {
 
   isElement(value: any): value is Element {
     return (
-      isPlainObject(value) &&
-      Node.isNodeList(value.children) &&
-      !Editor.isEditor(value)
+      isPlainObject(value)
+      && Node.isNodeList(value.children)
+      && !Editor.isEditor(value)
     )
   },
 
@@ -48,8 +50,8 @@ export const Element: ElementInterface = {
 
   isElementList(value: any): value is Element[] {
     return (
-      Array.isArray(value) &&
-      (value.length === 0 || Element.isElement(value[0]))
+      Array.isArray(value)
+      && (value.length === 0 || Element.isElement(value[0]))
     )
   },
 

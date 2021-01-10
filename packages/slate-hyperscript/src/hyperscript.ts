@@ -1,4 +1,5 @@
-import isPlainObject from 'is-plain-object'
+import { isPlainObject } from 'is-plain-object'
+
 import { Element } from 'slate'
 import {
   createAnchor,
@@ -52,7 +53,7 @@ const createHyperscript = (
   options: {
     creators?: HyperscriptCreators
     elements?: HyperscriptShorthands
-  } = {}
+  } = {},
 ) => {
   const { elements = {} } = options
   const elementCreators = normalizeElements(elements)
@@ -91,7 +92,7 @@ const createFactory = <T extends HyperscriptCreators>(creators: T) => {
       attributes = {}
     }
 
-    children = children.filter(child => Boolean(child)).flat()
+    children = children.filter((child) => Boolean(child)).flat()
     const ret = creator(tagName, attributes, children)
     return ret
   }
@@ -111,17 +112,15 @@ const normalizeElements = (elements: HyperscriptShorthands) => {
 
     if (typeof props !== 'object') {
       throw new Error(
-        `Properties specified for a hyperscript shorthand should be an object, but for the custom element <${tagName}>  tag you passed: ${props}`
+        `Properties specified for a hyperscript shorthand should be an object, but for the custom element <${tagName}>  tag you passed: ${props}`,
       )
     }
 
     creators[tagName] = (
       tagName: string,
       attributes: { [key: string]: any },
-      children: any[]
-    ) => {
-      return createElement('element', { ...props, ...attributes }, children)
-    }
+      children: any[],
+    ) => createElement('element', { ...props, ...attributes }, children)
   }
 
   return creators

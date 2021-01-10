@@ -1,4 +1,5 @@
-import isPlainObject from 'is-plain-object'
+import { isPlainObject } from 'is-plain-object'
+
 import { produce } from 'immer'
 import { ExtendedType, Operation, Path } from '..'
 
@@ -80,9 +81,9 @@ export const Point: PointInterface = {
 
   isPoint(value: any): value is Point {
     return (
-      isPlainObject(value) &&
-      typeof value.offset === 'number' &&
-      Path.isPath(value.path)
+      isPlainObject(value)
+      && typeof value.offset === 'number'
+      && Path.isPath(value.path)
     )
   },
 
@@ -93,9 +94,9 @@ export const Point: PointInterface = {
   transform(
     point: Point,
     op: Operation,
-    options: { affinity?: 'forward' | 'backward' | null } = {}
+    options: { affinity?: 'forward' | 'backward' | null } = {},
   ): Point | null {
-    return produce(point, p => {
+    return produce(point, (p) => {
       const { affinity = 'forward' } = options
       const { path, offset } = p
 
@@ -144,9 +145,9 @@ export const Point: PointInterface = {
           if (Path.equals(op.path, path)) {
             if (op.position === offset && affinity == null) {
               return null
-            } else if (
-              op.position < offset ||
-              (op.position === offset && affinity === 'forward')
+            } if (
+              op.position < offset
+              || (op.position === offset && affinity === 'forward')
             ) {
               p.offset -= op.position
 

@@ -1,5 +1,7 @@
-import { ExtendedType, Node, Path, Range } from '..'
-import isPlainObject from 'is-plain-object'
+import { isPlainObject } from 'is-plain-object'
+import {
+  ExtendedType, Node, Path, Range,
+} from '..'
 
 export type BaseInsertNodeOperation = {
   type: 'insert_node'
@@ -169,15 +171,15 @@ export const Operation: OperationInterface = {
         return Path.isPath(value.path) && Node.isNode(value.node)
       case 'insert_text':
         return (
-          typeof value.offset === 'number' &&
-          typeof value.text === 'string' &&
-          Path.isPath(value.path)
+          typeof value.offset === 'number'
+          && typeof value.text === 'string'
+          && Path.isPath(value.path)
         )
       case 'merge_node':
         return (
-          typeof value.position === 'number' &&
-          Path.isPath(value.path) &&
-          isPlainObject(value.properties)
+          typeof value.position === 'number'
+          && Path.isPath(value.path)
+          && isPlainObject(value.properties)
         )
       case 'move_node':
         return Path.isPath(value.path) && Path.isPath(value.newPath)
@@ -185,28 +187,28 @@ export const Operation: OperationInterface = {
         return Path.isPath(value.path) && Node.isNode(value.node)
       case 'remove_text':
         return (
-          typeof value.offset === 'number' &&
-          typeof value.text === 'string' &&
-          Path.isPath(value.path)
+          typeof value.offset === 'number'
+          && typeof value.text === 'string'
+          && Path.isPath(value.path)
         )
       case 'set_node':
         return (
-          Path.isPath(value.path) &&
-          isPlainObject(value.properties) &&
-          isPlainObject(value.newProperties)
+          Path.isPath(value.path)
+          && isPlainObject(value.properties)
+          && isPlainObject(value.newProperties)
         )
       case 'set_selection':
         return (
-          (value.properties === null && Range.isRange(value.newProperties)) ||
-          (value.newProperties === null && Range.isRange(value.properties)) ||
-          (isPlainObject(value.properties) &&
-            isPlainObject(value.newProperties))
+          (value.properties === null && Range.isRange(value.newProperties))
+          || (value.newProperties === null && Range.isRange(value.properties))
+          || (isPlainObject(value.properties)
+            && isPlainObject(value.newProperties))
         )
       case 'split_node':
         return (
-          Path.isPath(value.path) &&
-          typeof value.position === 'number' &&
-          isPlainObject(value.properties)
+          Path.isPath(value.path)
+          && typeof value.position === 'number'
+          && isPlainObject(value.properties)
         )
       default:
         return false
@@ -219,8 +221,8 @@ export const Operation: OperationInterface = {
 
   isOperationList(value: any): value is Operation[] {
     return (
-      Array.isArray(value) &&
-      (value.length === 0 || Operation.isOperation(value[0]))
+      Array.isArray(value)
+      && (value.length === 0 || Operation.isOperation(value[0]))
     )
   },
 
@@ -306,15 +308,14 @@ export const Operation: OperationInterface = {
             properties: newProperties as Range,
             newProperties: null,
           }
-        } else if (newProperties == null) {
+        } if (newProperties == null) {
           return {
             ...op,
             properties: null,
             newProperties: properties as Range,
           }
-        } else {
-          return { ...op, properties: newProperties, newProperties: properties }
         }
+        return { ...op, properties: newProperties, newProperties: properties }
       }
 
       case 'split_node': {

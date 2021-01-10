@@ -1,4 +1,4 @@
-import isPlainObject from 'is-plain-object'
+import { isPlainObject } from 'is-plain-object'
 import { createDraft, finishDraft, isDraft } from 'immer'
 import { reverse as reverseText } from 'esrever'
 
@@ -285,7 +285,7 @@ export const Editor: EditorInterface = {
       match?: NodeMatch<T>
       mode?: 'highest' | 'lowest'
       voids?: boolean
-    } = {}
+    } = {},
   ): NodeEntry<T> | undefined {
     const {
       voids = false,
@@ -335,7 +335,7 @@ export const Editor: EditorInterface = {
       distance?: number
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
       voids?: boolean
-    } = {}
+    } = {},
   ): Point | undefined {
     const anchor = Editor.point(editor, at, { edge: 'end' })
     const focus = Editor.end(editor, [])
@@ -373,7 +373,7 @@ export const Editor: EditorInterface = {
       distance?: number
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
       voids?: boolean
-    } = {}
+    } = {},
   ): Point | undefined {
     const anchor = Editor.start(editor, [])
     const focus = Editor.point(editor, at, { edge: 'start' })
@@ -409,7 +409,7 @@ export const Editor: EditorInterface = {
     editor: Editor,
     options: {
       unit?: 'character' | 'word' | 'line' | 'block'
-    } = {}
+    } = {},
   ): void {
     const { unit = 'character' } = options
     editor.deleteBackward(unit)
@@ -423,7 +423,7 @@ export const Editor: EditorInterface = {
     editor: Editor,
     options: {
       unit?: 'character' | 'word' | 'line' | 'block'
-    } = {}
+    } = {},
   ): void {
     const { unit = 'character' } = options
     editor.deleteForward(unit)
@@ -476,7 +476,7 @@ export const Editor: EditorInterface = {
    */
 
   hasBlocks(editor: Editor, element: Element): boolean {
-    return element.children.some(n => Editor.isBlock(editor, n))
+    return element.children.some((n) => Editor.isBlock(editor, n))
   },
 
   /**
@@ -485,7 +485,7 @@ export const Editor: EditorInterface = {
 
   hasInlines(editor: Editor, element: Element): boolean {
     return element.children.some(
-      n => Text.isText(n) || Editor.isInline(editor, n)
+      (n) => Text.isText(n) || Editor.isInline(editor, n),
     )
   },
 
@@ -494,7 +494,7 @@ export const Editor: EditorInterface = {
    */
 
   hasTexts(editor: Editor, element: Element): boolean {
-    return element.children.every(n => Text.isText(n))
+    return element.children.every((n) => Text.isText(n))
   },
 
   /**
@@ -551,25 +551,25 @@ export const Editor: EditorInterface = {
 
   isEditor(value: any): value is Editor {
     return (
-      isPlainObject(value) &&
-      typeof value.addMark === 'function' &&
-      typeof value.apply === 'function' &&
-      typeof value.deleteBackward === 'function' &&
-      typeof value.deleteForward === 'function' &&
-      typeof value.deleteFragment === 'function' &&
-      typeof value.insertBreak === 'function' &&
-      typeof value.insertFragment === 'function' &&
-      typeof value.insertNode === 'function' &&
-      typeof value.insertText === 'function' &&
-      typeof value.isInline === 'function' &&
-      typeof value.isVoid === 'function' &&
-      typeof value.normalizeNode === 'function' &&
-      typeof value.onChange === 'function' &&
-      typeof value.removeMark === 'function' &&
-      (value.marks === null || isPlainObject(value.marks)) &&
-      (value.selection === null || Range.isRange(value.selection)) &&
-      Node.isNodeList(value.children) &&
-      Operation.isOperationList(value.operations)
+      isPlainObject(value)
+      && typeof value.addMark === 'function'
+      && typeof value.apply === 'function'
+      && typeof value.deleteBackward === 'function'
+      && typeof value.deleteForward === 'function'
+      && typeof value.deleteFragment === 'function'
+      && typeof value.insertBreak === 'function'
+      && typeof value.insertFragment === 'function'
+      && typeof value.insertNode === 'function'
+      && typeof value.insertText === 'function'
+      && typeof value.isInline === 'function'
+      && typeof value.isVoid === 'function'
+      && typeof value.normalizeNode === 'function'
+      && typeof value.onChange === 'function'
+      && typeof value.removeMark === 'function'
+      && (value.marks === null || isPlainObject(value.marks))
+      && (value.selection === null || Range.isRange(value.selection))
+      && Node.isNodeList(value.children)
+      && Operation.isOperationList(value.operations)
     )
   },
 
@@ -598,11 +598,11 @@ export const Editor: EditorInterface = {
     const { children } = element
     const [first] = children
     return (
-      children.length === 0 ||
-      (children.length === 1 &&
-        Text.isText(first) &&
-        first.text === '' &&
-        !editor.isVoid(element))
+      children.length === 0
+      || (children.length === 1
+        && Text.isText(first)
+        && first.text === ''
+        && !editor.isVoid(element))
     )
   },
 
@@ -664,7 +664,7 @@ export const Editor: EditorInterface = {
     options: {
       depth?: number
       edge?: 'start' | 'end'
-    } = {}
+    } = {},
   ): NodeEntry<Text> {
     const path = Editor.path(editor, at, options)
     const node = Node.leaf(editor, path)
@@ -675,14 +675,14 @@ export const Editor: EditorInterface = {
    * Iterate through all of the levels at a location.
    */
 
-  *levels<T extends Node>(
+  * levels<T extends Node>(
     editor: Editor,
     options: {
       at?: Location
       match?: NodeMatch<T>
       reverse?: boolean
       voids?: boolean
-    } = {}
+    } = {},
   ): Generator<NodeEntry<T>, void, undefined> {
     const { at = editor.selection, reverse = false, voids = false } = options
     let { match } = options
@@ -739,9 +739,8 @@ export const Editor: EditorInterface = {
         const [node] = match as NodeEntry<Text>
         const { text, ...rest } = node
         return rest
-      } else {
-        return {}
       }
+      return {}
     }
 
     const { anchor } = selection
@@ -751,7 +750,7 @@ export const Editor: EditorInterface = {
     if (anchor.offset === 0) {
       const prev = Editor.previous(editor, { at: path, match: Text.isText })
       const block = Editor.above(editor, {
-        match: n => Editor.isBlock(editor, n),
+        match: (n) => Editor.isBlock(editor, n),
       })
 
       if (prev && block) {
@@ -779,7 +778,7 @@ export const Editor: EditorInterface = {
       match?: NodeMatch<T>
       mode?: 'all' | 'highest' | 'lowest'
       voids?: boolean
-    } = {}
+    } = {},
   ): NodeEntry<T> | undefined {
     const { mode = 'lowest', voids = false } = options
     let { match, at = editor.selection } = options
@@ -797,19 +796,21 @@ export const Editor: EditorInterface = {
     const span: Span = [pointAfterLocation.path, to]
 
     if (Path.isPath(at) && at.length === 0) {
-      throw new Error(`Cannot get the next node from the root node!`)
+      throw new Error('Cannot get the next node from the root node!')
     }
 
     if (match == null) {
       if (Path.isPath(at)) {
         const [parent] = Editor.parent(editor, at)
-        match = n => parent.children.includes(n)
+        match = (n) => parent.children.includes(n)
       } else {
         match = () => true
       }
     }
 
-    const [next] = Editor.nodes(editor, { at: span, match, mode, voids })
+    const [next] = Editor.nodes(editor, {
+      at: span, match, mode, voids,
+    })
     return next
   },
 
@@ -823,7 +824,7 @@ export const Editor: EditorInterface = {
     options: {
       depth?: number
       edge?: 'start' | 'end'
-    } = {}
+    } = {},
   ): NodeEntry {
     const path = Editor.path(editor, at, options)
     const node = Node.get(editor, path)
@@ -834,7 +835,7 @@ export const Editor: EditorInterface = {
    * Iterate through all of the nodes in the Editor.
    */
 
-  *nodes<T extends Node>(
+  * nodes<T extends Node>(
     editor: Editor,
     options: {
       at?: Location | Span
@@ -843,7 +844,7 @@ export const Editor: EditorInterface = {
       universal?: boolean
       reverse?: boolean
       voids?: boolean
-    } = {}
+    } = {},
   ): Generator<NodeEntry<T>, void, undefined> {
     const {
       at = editor.selection,
@@ -899,9 +900,8 @@ export const Editor: EditorInterface = {
         // means the match is not universal.
         if (universal && !isLower && Text.isText(node)) {
           return
-        } else {
-          continue
         }
+        continue
       }
 
       // If there's a match and it's lower than the last, update the hit.
@@ -911,8 +911,7 @@ export const Editor: EditorInterface = {
       }
 
       // In lowest mode we emit the last hit, once it's guaranteed lowest.
-      const emit: NodeEntry<T> | undefined =
-        mode === 'lowest' ? hit : [node, path]
+      const emit: NodeEntry<T> | undefined = mode === 'lowest' ? hit : [node, path]
 
       if (emit) {
         if (universal) {
@@ -948,12 +947,10 @@ export const Editor: EditorInterface = {
     editor: Editor,
     options: {
       force?: boolean
-    } = {}
+    } = {},
   ): void {
     const { force = false } = options
-    const getDirtyPaths = (editor: Editor) => {
-      return DIRTY_PATHS.get(editor) || []
-    }
+    const getDirtyPaths = (editor: Editor) => DIRTY_PATHS.get(editor) || []
 
     if (!Editor.isNormalizing(editor)) {
       return
@@ -1001,7 +998,7 @@ export const Editor: EditorInterface = {
     options: {
       depth?: number
       edge?: 'start' | 'end'
-    } = {}
+    } = {},
   ): NodeEntry<Ancestor> {
     const path = Editor.path(editor, at, options)
     const parentPath = Path.parent(path)
@@ -1019,7 +1016,7 @@ export const Editor: EditorInterface = {
     options: {
       depth?: number
       edge?: 'start' | 'end'
-    } = {}
+    } = {},
   ): Path {
     const { depth, edge } = options
 
@@ -1064,7 +1061,7 @@ export const Editor: EditorInterface = {
     path: Path,
     options: {
       affinity?: 'backward' | 'forward' | null
-    } = {}
+    } = {},
   ): PathRef {
     const { affinity = 'forward' } = options
     const ref: PathRef = {
@@ -1108,7 +1105,7 @@ export const Editor: EditorInterface = {
     at: Location,
     options: {
       edge?: 'start' | 'end'
-    } = {}
+    } = {},
   ): Point {
     const { edge = 'start' } = options
 
@@ -1127,7 +1124,7 @@ export const Editor: EditorInterface = {
 
       if (!Text.isText(node)) {
         throw new Error(
-          `Cannot get the ${edge} point in the node at path [${at}] because it has no ${edge} text node.`
+          `Cannot get the ${edge} point in the node at path [${at}] because it has no ${edge} text node.`,
         )
       }
 
@@ -1152,7 +1149,7 @@ export const Editor: EditorInterface = {
     point: Point,
     options: {
       affinity?: 'backward' | 'forward' | null
-    } = {}
+    } = {},
   ): PointRef {
     const { affinity = 'forward' } = options
     const ref: PointRef = {
@@ -1200,14 +1197,14 @@ export const Editor: EditorInterface = {
    * voids option, then iteration will occur.
    */
 
-  *positions(
+  * positions(
     editor: Editor,
     options: {
       at?: Location
       unit?: 'offset' | 'character' | 'word' | 'line' | 'block'
       reverse?: boolean
       voids?: boolean
-    } = {}
+    } = {},
   ): Generator<Point, void, undefined> {
     const {
       at = editor.selection,
@@ -1247,7 +1244,7 @@ export const Editor: EditorInterface = {
       // Add or substract the offset.
       offset = reverse ? offset - distance : offset + distance
       // Subtract the distance traveled from the available text.
-      available = available - distance!
+      available -= distance!
       // If the available had room to spare, reset the distance so that it will
       // advance again next time. Otherwise, set it to the overflow amount.
       distance = available >= 0 ? null : 0 - available
@@ -1328,7 +1325,7 @@ export const Editor: EditorInterface = {
       match?: NodeMatch<T>
       mode?: 'all' | 'highest' | 'lowest'
       voids?: boolean
-    } = {}
+    } = {},
   ): NodeEntry<T> | undefined {
     const { mode = 'lowest', voids = false } = options
     let { match, at = editor.selection } = options
@@ -1350,13 +1347,13 @@ export const Editor: EditorInterface = {
     const span: Span = [pointBeforeLocation.path, to]
 
     if (Path.isPath(at) && at.length === 0) {
-      throw new Error(`Cannot get the previous node from the root node!`)
+      throw new Error('Cannot get the previous node from the root node!')
     }
 
     if (match == null) {
       if (Path.isPath(at)) {
         const [parent] = Editor.parent(editor, at)
-        match = n => parent.children.includes(n)
+        match = (n) => parent.children.includes(n)
       } else {
         match = () => true
       }
@@ -1397,7 +1394,7 @@ export const Editor: EditorInterface = {
     range: Range,
     options: {
       affinity?: 'backward' | 'forward' | 'outward' | 'inward' | null
-    } = {}
+    } = {},
   ): RangeRef {
     const { affinity = 'forward' } = options
     const ref: RangeRef = {
@@ -1464,7 +1461,7 @@ export const Editor: EditorInterface = {
     at: Location,
     options: {
       voids?: boolean
-    } = {}
+    } = {},
   ): string {
     const { voids = false } = options
     const range = Editor.range(editor, at)
@@ -1501,7 +1498,7 @@ export const Editor: EditorInterface = {
     range: Range,
     options: {
       voids?: boolean
-    } = {}
+    } = {},
   ): Range {
     const { voids = false } = options
     let [start, end] = Range.edges(range)
@@ -1513,7 +1510,7 @@ export const Editor: EditorInterface = {
 
     const endBlock = Editor.above(editor, {
       at: end,
-      match: n => Editor.isBlock(editor, n),
+      match: (n) => Editor.isBlock(editor, n),
     })
     const blockPath = endBlock ? endBlock[1] : []
     const first = Editor.start(editor, [])
@@ -1550,11 +1547,11 @@ export const Editor: EditorInterface = {
       at?: Location
       mode?: 'highest' | 'lowest'
       voids?: boolean
-    } = {}
+    } = {},
   ): NodeEntry<Element> | undefined {
     return Editor.above(editor, {
       ...options,
-      match: n => Editor.isVoid(editor, n),
+      match: (n) => Editor.isVoid(editor, n),
     })
   },
 

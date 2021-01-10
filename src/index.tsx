@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Editor } from '@ui'
+import { CheckListsExample } from '@ui'
 import './index.styl'
 
 ReactDOM.render(
-  <Editor />,
+  <CheckListsExample />,
   document.getElementById('root'),
 )

@@ -40,7 +40,6 @@
     // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
     // "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
     // "noUncheckedIndexedAccess": true,      /* Include 'undefined' in index signature results */
-
     /* Module Resolution Options */
     // "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": ".",                           /* Base directory to resolve non-absolute module names. */
@@ -60,7 +59,15 @@
       "@tool": ["./src/tool"],
       "@tool/*": ["./src/tool/*"],
       "@ui": ["./src/ui"],
-      "@ui/*": ["./src/ui/*"]
+      "@ui/*": ["./src/ui/*"],
+      "slate": ["./src/ui/slate/slate"],
+      "slate/*": ["./src/ui/slate/slate/*"],
+      "slate-history": ["./src/ui/slate/slate-history"],
+      "slate-history/*": ["./src/ui/slate/slate-history/*"],
+      "slate-hyperscript": ["./src/ui/slate/slate-hyperscript"],
+      "slate-hyperscript/*": ["./src/ui/slate/slate-hyperscript/*"],
+      "slate-react": ["./src/ui/slate/slate-react"],
+      "slate-react/*": ["./src/ui/slate/slate-react/*"]
     },                                        /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */

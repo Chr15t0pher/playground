@@ -5,16 +5,16 @@ import { Argv, NODE_ENV } from './types'
 
 function getTsRules(): RuleSetRule[] {
   return [
-    {
-      test: /\.tsx?$/,
-      exclude: [/node_modules/],
-      enforce: 'pre',
-      use: [
-        {
-          loader: 'eslint-loader',
-        },
-      ],
-    },
+    // {
+    //   test: /\.tsx?$/,
+    //   exclude: [/node_modules/],
+    //   enforce: 'pre',
+    //   use: [
+    //     {
+    //       loader: 'eslint-loader',
+    //     },
+    //   ],
+    // },
     {
       test: /\.tsx?$/,
       exclude: [/node_modules/],

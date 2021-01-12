@@ -1,0 +1,39 @@
+{
+  "name": "slate-react",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "Chr15t0pher <Chr15t0pher5xy@gmail.com>",
+  "homepage": "https://github.com/Chr15t0pher/playground#readme",
+  "license": "ISC",
+  "main": "src/index.ts",
+  "directories": {
+    "src": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chr15t0pher/playground.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/Chr15t0pher/playground/issues"
+  },
+  "dependencies": {
+    "direction": "^1.0.4",
+    "is-hotkey": "^0.2.0",
+    "is-plain-object": "^5.0.0",
+    "lodash": "^4.17.20",
+    "regenerator-runtime": "^0.13.7",
+    "scroll-into-view-if-needed": "^2.2.26",
+    "slate": "^1.0.0",
+    "slate-history": "^1.0.0"
+  }
+}
